@@ -33,12 +33,12 @@ To use the Swagger documentation, including the XML documents from this library,
     var apiXmlPath = Path.Combine(AppContext.BaseDirectory, apiXmlFile);
 
     // Use the builder to build the Swagger Services.
-    _ = new SwaggerServicesBuilder()
-            .WithApiTitle(ApiTitle)
-            .WithApiVersion(ApiVersion)
-            .WithApiDescription(ApiDescription)
-            .WithXmlComments(apiXmlPath)
-            .BuildSwaggerServices(services);
+    new SwaggerServicesBuilder()
+        .WithApiTitle(ApiTitle)
+        .WithApiVersion(ApiVersion)
+        .WithApiDescription(ApiDescription)
+        .WithXmlComments(apiXmlPath)
+        .BuildSwaggerServices(services);
     ```
 3. In the `Configure` method in `Startup.cs`, add the following line of code:
     ``` C#
