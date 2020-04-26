@@ -17,6 +17,5 @@
     </dependencies>
     <files>
         <file src="..\src\Shared.WebApi.Core\bin\Release\**\*.*" target="lib" />
-        <file src="..\src\Shared.WebApi.Core\App_Data\Documentation\XmlDocumentation\Shared.WebApi.Core.xml" target="lib" />
     </files>
 </package>

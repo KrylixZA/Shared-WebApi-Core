@@ -28,9 +28,6 @@ namespace Shared.WebApi.Core.Builders
         {
             _logger = logger;
             XmlCommentsPaths = new List<string>();
-            var coreXmlComments = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlComments);
-            XmlCommentsPaths.Add(coreXmlPath);
         }
 
         /// <summary>
@@ -76,9 +73,17 @@ namespace Shared.WebApi.Core.Builders
         /// <summary>
         /// Builds the Swagger services.
         /// </summary>
-        /// <param name="services"></param>
-        public void BuildSwaggerServices(IServiceCollection services)
+        /// <param name="services">The services collection.</param>
+        /// <param name="includeCoreXmlDocs">Determines whether to include the XML comments from this project in the Swagger setup. Default value is false.</param>
+        public void BuildSwaggerServices(IServiceCollection services, bool includeCoreXmlDocs = false)
         {
+            if (includeCoreXmlDocs) 
+            {
+                var coreXmlComments = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlComments);
+                XmlCommentsPaths.Add(coreXmlPath);
+            }
+
             _logger.LogTrace("Registering Swagger Gen with the following config:");
             _logger.LogTrace($"API version: v{ApiVersion}");
             _logger.LogTrace($"API title: {Title}");
