@@ -16,7 +16,7 @@
         <dependency id="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
     </dependencies>
     <files>
-        <file src="..\src\Shared.WebApi.Core\bin\Release\**\*.*" target="lib\netstandard2.1" />
-        <file src="..\src\Shared.WebApi.Core\App_Data\Documentation\XmlDocumentation\Shared.WebApi.Core.xml" target="lib\netstandard2.1" />
+        <file src="..\src\Shared.WebApi.Core\bin\Release\**\*.*" target="lib" />
+        <file src="..\src\Shared.WebApi.Core\App_Data\Documentation\XmlDocumentation\Shared.WebApi.Core.xml" target="lib" />
     </files>
 </package>
