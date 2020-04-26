@@ -7,11 +7,10 @@
         <authors>Simon Headley</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Web API core libraries </description>
-        <repositoryUrl>https://headleysj@dev.azure.com/headleysj/DevOps/_git/Shared-WebApi-Core</repositoryUrl>
+        <projectUrl>https://headleysj@dev.azure.com/headleysj/DevOps/_git/Shared-WebApi-Core</projectUrl>
         <tags>Shared Web API Core</tags>
     </metadata>
     <files>
-        <file src="..\src\Shared.WebApi.Core\bin\Release\**\*.*" />
-        <file src="..\src\Shared.WebApi.Core\App_Data\Documentation\XmlDocumentation\**\*.*" />
+        <file src="..\src\Shared.WebApi.Core\bin\Release\**\*.*" target="lib" />
     </files>
 </package>
