@@ -33,13 +33,13 @@ To use the Swagger documentation, including the XML documents from this library,
     var apiXmlPath = Path.Combine(AppContext.BaseDirectory, apiXmlFile);
 
     // Use the builder to build the Swagger Services.
-    new SwaggerServicesBuilder(includeCoreXmlDocs = true)
+    new SwaggerServicesBuilder()
         .WithApiTitle(ApiTitle)
         .WithApiVersion(ApiVersion)
         .WithApiDescription(ApiDescription)
         .WithXmlComments(apiXmlPath)
-        .BuildSwaggerServices(services);
-    // Set includeCoreXmlDocs = false if you do not wish to use the XML documentation from this library.
+        .BuildSwaggerServices(services, includeCoreXmlDocs: true);
+    // Set includeCoreXmlDocs: false if you do not wish to use the XML documentation from this library, or simply leave it out as the default value is false.
     ```
 3. In the `Configure` method in `Startup.cs`, add the following line of code:
     ``` C#
@@ -52,7 +52,7 @@ To use the Swagger documentation, including the XML documents from this library,
     <PackageReference Include="Shared.WebApi.Core" Version="1.0.0.57" GeneratePathProperty="true" />
     ```
     [Click here](https://blog.dangl.me/archive/accessing-nuget-package-paths-in-your-net-sdk-based-csproj-files/) to read more about `GeneratePathProperty`.
-    
+
     4.2 Add the following post-build event to your project:
     ``` XML
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -62,4 +62,4 @@ To use the Swagger documentation, including the XML documents from this library,
     ```
     This will copy the XML documentation from this project, with whichever version you have installed, to the build output directory of your project. Swagger will now be able to pick up the XML files and your docs will include any classes from this package as well.
 
-    If you do not wish to use this, simply create the `SwaggerServicesBuilder` class, passing in a false value for the `includeCoreXmlDocs` variable. This is the default value as well.
+    If you do not wish to use this, pass in a false value for the `includeCoreXmlDocs` paramter in the `BuildSwaggerServices` method. This is the default value as well.
