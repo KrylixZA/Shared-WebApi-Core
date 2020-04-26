@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
+namespace Shared.WebApi.Core.Errors
+{
+    /// <summary>
+    /// A base error response model that will represent any errors that are handled by the API.
+    /// </summary>
+    public class ErrorResponse
+    {
+        /// <summary>
+        /// The error code correlating to the error that occurred.
+        /// </summary>
+        [Required]
+        [JsonProperty("errorCode", Required = Required.Always)]
+        public int ErrorCode { get; set; }
+
+        /// <summary>
+        /// The details of the error that occurred, including the stacktrace or any other relevant information.
+        /// </summary>
+        [Required]
+        [JsonProperty("errorDetails", Required = Required.Always)]
+        public string ErrorDetails { get; set; }
+
+        /// <summary>
+        /// A user friendly description of what went wrong.
+        /// </summary>
+        [Required]
+        [JsonProperty("errorMessage", Required = Required.Always)]
+        public string ErrorMessage { get; set; }
+
+        /// <summary>
+        /// An enumeration of any inner exceptions that may have occurred.
+        /// </summary>
+        [JsonProperty("innerExceptions")]
+        public IEnumerable<Exception> InnerExceptions { get; set; }
+
+        /// <summary>
+        /// Returns a JSON string representation of this instance.
+        /// </summary>
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+}

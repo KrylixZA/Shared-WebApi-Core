@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Shared.WebApi.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Shared.WebApi.Core.Errors.ErrorResponse">
+            <summary>
+            A base error response model that will represent any errors that are handled by the API.
+            </summary>
+        </member>
+        <member name="P:Shared.WebApi.Core.Errors.ErrorResponse.ErrorCode">
+            <summary>
+            The error code correlating to the error that occurred.
+            </summary>
+        </member>
+        <member name="P:Shared.WebApi.Core.Errors.ErrorResponse.ErrorDetails">
+            <summary>
+            The details of the error that occurred, including the stacktrace or any other relevant information.
+            </summary>
+        </member>
+        <member name="P:Shared.WebApi.Core.Errors.ErrorResponse.ErrorMessage">
+            <summary>
+            A user friendly description of what went wrong.
+            </summary>
+        </member>
+        <member name="P:Shared.WebApi.Core.Errors.ErrorResponse.InnerExceptions">
+            <summary>
+            An enumeration of any inner exceptions that may have occurred.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Errors.ErrorResponse.ToString">
+            <summary>
+            Returns a JSON string representation of this instance.
+            </summary>
+        </member>
+        <member name="T:Shared.WebApi.Core.Errors.IErrorMessageSelector">
+            <summary>
+            A contract for resolving user friendly error messages.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Errors.IErrorMessageSelector.GetErrorMessage(System.Int32)">
+            <summary>
+            Gets a user friendly error message of what went wrong based off the error code.
+            </summary>
+            <param name="errorCode">The error code.</param>
+            <returns>The user friendly message.</returns>
+        </member>
+        <member name="T:Shared.WebApi.Core.Exceptions.BadRequestException">
+            <summary>
+            Represents an instance of a bad request.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.BadRequestException.GetHttpStatusCode">
+            <inheritdoc />
+        </member>
+        <member name="T:Shared.WebApi.Core.Exceptions.BaseHttpException">
+            <summary>
+            Represents a base HTTP exception.
+            </summary>
+        </member>
+        <member name="P:Shared.WebApi.Core.Exceptions.BaseHttpException.ErrorCode">
+            <summary>
+            The error code correlating to the error that occurred.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.BaseHttpException.GetHttpStatusCode">
+            <summary>
+            Gets the System.Net.HttpStatusCode associated with the exception that was thrown.
+            </summary>
+        </member>
+        <member name="T:Shared.WebApi.Core.Exceptions.GlobalExceptionHandler">
+            <summary>
+            A global exception handler middleware to handle errors on the API and generate valid error response.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.GlobalExceptionHandler.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,Shared.WebApi.Core.Errors.IErrorMessageSelector,Microsoft.Extensions.Logging.ILogger{Shared.WebApi.Core.Exceptions.GlobalExceptionHandler})">
+            <summary>
+            Initializes a new instance of the GlobalExceptionHandler class.
+            </summary>
+            <param name="next">The next response.</param>
+            <param name="errorMessageSelector">The error message selector.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.GlobalExceptionHandler.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invokes the action asynchronously.
+            </summary>
+            <param name="httpContext">The HTTP context.</param>
+        </member>
+        <member name="T:Shared.WebApi.Core.Exceptions.NotFoundException">
+            <summary>
+            Represents an instance of a not found exception.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.NotFoundException.GetHttpStatusCode">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
