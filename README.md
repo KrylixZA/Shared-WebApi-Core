@@ -52,6 +52,7 @@ To use the Swagger documentation, including the XML documents from this library,
     <PackageReference Include="Shared.WebApi.Core" Version="1.0.0.57" GeneratePathProperty="true" />
     ```
     [Click here](https://blog.dangl.me/archive/accessing-nuget-package-paths-in-your-net-sdk-based-csproj-files/) to read more about `GeneratePathProperty`.
+    
     4.2 Add the following post-build event to your project:
     ``` XML
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
