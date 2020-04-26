@@ -4,7 +4,7 @@ using Shared.WebApi.Core.Exceptions;
 namespace Shared.WebApi.Core.Extensions
 {
     /// <summary>
-    /// A static class containing a variety of extension methods to make registration easier.
+    /// A static class containing a variety of extension methods to make global exception handling easier.
     /// </summary>
     public static class GlobalExceptionHandlerExtensions
     {

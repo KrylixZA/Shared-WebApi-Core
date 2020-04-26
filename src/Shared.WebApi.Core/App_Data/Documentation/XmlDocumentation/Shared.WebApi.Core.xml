@@ -4,6 +4,46 @@
         <name>Shared.WebApi.Core</name>
     </assembly>
     <members>
+        <member name="T:Shared.WebApi.Core.Builders.SwaggerServicesBuilder">
+            <summary>
+            A builder class containing a variety of extension methods to make setting up swagger docs much simpler.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.#ctor">
+            <summary>
+            Initializes a new instance of the swagger builder extensions class.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.WithApiVersion(System.Int32)">
+            <summary>
+            Sets the API version.
+            </summary>
+            <param name="apiVersion">The API version.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.WithApiTitle(System.String)">
+            <summary>
+            Sets the API title.
+            </summary>
+            <param name="title">The API title.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.WithApiDescription(System.String)">
+            <summary>
+            Sets the API description.
+            </summary>
+            <param name="description">The API description.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.WithXmlComments(System.String)">
+            <summary>
+            Appends to the list of XML comments, the provided XML comments.
+            </summary>
+            <param name="xmlCommentPath">The path to the XML comments.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.BuildSwaggerServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Builds the Swagger services.
+            </summary>
+            <param name="services"></param>
+        </member>
         <member name="T:Shared.WebApi.Core.Errors.ErrorResponse">
             <summary>
             A base error response model that will represent any errors that are handled by the API.
@@ -95,6 +135,30 @@
         </member>
         <member name="M:Shared.WebApi.Core.Exceptions.NotFoundException.GetHttpStatusCode">
             <inheritdoc />
+        </member>
+        <member name="T:Shared.WebApi.Core.Extensions.GlobalExceptionHandlerExtensions">
+            <summary>
+            A static class containing a variety of extension methods to make global exception handling easier.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Extensions.GlobalExceptionHandlerExtensions.UseGlobalExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Encapsulates the registration of the global exception handler to simplify use in a project.
+            </summary>
+            <param name="app">The application builder.</param>
+        </member>
+        <member name="T:Shared.WebApi.Core.Extensions.SwaggerExtensions">
+            <summary>
+            A set of extension methods designed to simplify the use of Swagger documentation.
+            </summary>
+        </member>
+        <member name="M:Shared.WebApi.Core.Extensions.SwaggerExtensions.UseSwaggerDocs(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Int32,System.String)">
+            <summary>
+            Use the given Swagger documentation configuration.
+            </summary>
+            <param name="app">The application builder.</param>
+            <param name="apiVersion">The API version.</param>
+            <param name="apiTitle">The API title.</param>
         </member>
     </members>
 </doc>
