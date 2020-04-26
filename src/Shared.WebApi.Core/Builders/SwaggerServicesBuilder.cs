@@ -19,7 +19,7 @@ namespace Shared.WebApi.Core.Builders
         private int ApiVersion { get; set; }
         private string Title { get; set; }
         private string Description { get; set; }
-        private IEnumerable<string> XmlCommentsPaths { get; set; }
+        private List<string> XmlCommentsPaths { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the swagger builder extensions class.
@@ -30,7 +30,7 @@ namespace Shared.WebApi.Core.Builders
             XmlCommentsPaths = new List<string>();
             var coreXmlComments = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlComments);
-            _ = XmlCommentsPaths.Append(coreXmlPath);
+            XmlCommentsPaths.Add(coreXmlPath);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Shared.WebApi.Core.Builders
         /// <param name="xmlCommentPath">The path to the XML comments.</param>
         public SwaggerServicesBuilder WithXmlComments(string xmlCommentPath)
         {
-            _ = XmlCommentsPaths.Append(xmlCommentPath);
+            XmlCommentsPaths.Add(xmlCommentPath);
             return this;
         }
 
