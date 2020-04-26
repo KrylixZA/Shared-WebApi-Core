@@ -9,7 +9,7 @@
             A builder class containing a variety of extension methods to make setting up swagger docs much simpler.
             </summary>
         </member>
-        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.#ctor">
+        <member name="M:Shared.WebApi.Core.Builders.SwaggerServicesBuilder.#ctor(Microsoft.Extensions.Logging.ILogger{Shared.WebApi.Core.Builders.SwaggerServicesBuilder})">
             <summary>
             Initializes a new instance of the swagger builder extensions class.
             </summary>
