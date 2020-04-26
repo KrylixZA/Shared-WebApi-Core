@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 
 namespace Shared.WebApi.Core.Builders
 {
@@ -15,7 +12,6 @@ namespace Shared.WebApi.Core.Builders
     /// </summary>
     public class SwaggerServicesBuilder 
     {
-        private readonly ILogger<SwaggerServicesBuilder> _logger;
         private int ApiVersion { get; set; }
         private string Title { get; set; }
         private string Description { get; set; }
@@ -24,9 +20,8 @@ namespace Shared.WebApi.Core.Builders
         /// <summary>
         /// Initializes a new instance of the swagger builder extensions class.
         /// </summary>
-        public SwaggerServicesBuilder(ILogger<SwaggerServicesBuilder> logger) 
+        public SwaggerServicesBuilder() 
         {
-            _logger = logger;
             XmlCommentsPaths = new List<string>();
         }
 
@@ -83,12 +78,6 @@ namespace Shared.WebApi.Core.Builders
                 var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlComments);
                 XmlCommentsPaths.Add(coreXmlPath);
             }
-
-            _logger.LogTrace("Registering Swagger Gen with the following config:");
-            _logger.LogTrace($"API version: v{ApiVersion}");
-            _logger.LogTrace($"API title: {Title}");
-            _logger.LogTrace($"API description: {Description}");
-            _logger.LogTrace($"Xml Comment Files: {JsonConvert.SerializeObject(XmlCommentsPaths)}");
             
             services.AddSwaggerGen(c =>
             {
