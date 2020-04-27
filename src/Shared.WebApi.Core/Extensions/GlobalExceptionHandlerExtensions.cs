@@ -12,9 +12,10 @@ namespace Shared.WebApi.Core.Extensions
         /// Encapsulates the registration of the global exception handler to simplify use in a project.
         /// </summary>
         /// <param name="app">The application builder.</param>
-        public static void UseGlobalExceptionHandler(this IApplicationBuilder app)
+        public static IApplicationBuilder UseGlobalExceptionHandler(this IApplicationBuilder app)
         {
             app.UseMiddleware<GlobalExceptionHandler>();
+            return app;
         }
     }
 }

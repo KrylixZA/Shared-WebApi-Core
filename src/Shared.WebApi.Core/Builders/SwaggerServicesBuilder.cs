@@ -4,6 +4,8 @@ using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Shared.WebApi.Core.Security;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Shared.WebApi.Core.Builders
 {
@@ -15,7 +17,11 @@ namespace Shared.WebApi.Core.Builders
         private int ApiVersion { get; set; }
         private string Title { get; set; }
         private string Description { get; set; }
-        private List<string> XmlCommentsPaths { get; set; }
+        private List<string> XmlCommentsPaths { get; }
+        private bool IncludeCoreXmlDocs { get; set; }
+        private bool UseAuthOperationFilter { get; set; }
+        private string SecurityDefinitionName { get; set; }
+        private OpenApiSecurityScheme SecurityDefinition { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the swagger builder extensions class.
@@ -66,13 +72,44 @@ namespace Shared.WebApi.Core.Builders
         }
 
         /// <summary>
+        /// Determines whether to include the XML documentation from this library in your Swagger docs.
+        /// </summary>
+        /// <param name="includeCoreXmlDocs">A boolean indicating whether or not to include the XML documentation.</param>
+        public SwaggerServicesBuilder WithCoreXmlDocs(bool includeCoreXmlDocs)
+        {
+            IncludeCoreXmlDocs = includeCoreXmlDocs;
+            return this;
+        }
+
+        /// <summary>
+        /// Determines whether to use the JWT authorization operation filter or not in your Swagger docs.
+        /// </summary>
+        /// <param name="useAuthOperationFilter">A boolean indicating whether or not to use the JWT authorization filter.</param>
+        public SwaggerServicesBuilder WithOperationFilter(bool useAuthOperationFilter)
+        {
+            UseAuthOperationFilter = useAuthOperationFilter;
+            return this;
+        }
+
+        /// <summary>
+        /// If a security definition is being used, use this method to set it.
+        /// </summary>
+        /// <param name="name">The security definition name.</param>
+        /// <param name="securityDefinition">The security definition.</param>
+        public SwaggerServicesBuilder WithSecurityDefinition(string name, OpenApiSecurityScheme securityDefinition)
+        {
+            SecurityDefinitionName = name;
+            SecurityDefinition = securityDefinition;
+            return this;
+        }
+
+        /// <summary>
         /// Builds the Swagger services.
         /// </summary>
         /// <param name="services">The services collection.</param>
-        /// <param name="includeCoreXmlDocs">Determines whether to include the XML comments from this project in the Swagger setup. Default value is false.</param>
-        public void BuildSwaggerServices(IServiceCollection services, bool includeCoreXmlDocs = false)
+        public void BuildSwaggerServices(IServiceCollection services)
         {
-            if (includeCoreXmlDocs) 
+            if (IncludeCoreXmlDocs) 
             {
                 var coreXmlComments = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var coreXmlPath = Path.Combine(AppContext.BaseDirectory, coreXmlComments);
@@ -87,6 +124,16 @@ namespace Shared.WebApi.Core.Builders
                     Version = $"v{ApiVersion}",
                     Description = Description
                 });
+
+                if (UseAuthOperationFilter)
+                {
+                    c.OperationFilter<AuthOperationFilter>();
+                }
+
+                if (SecurityDefinition != null)
+                {
+                    c.AddSecurityDefinition(SecurityDefinitionName, SecurityDefinition);
+                }
                 
                 // Set the comments path for the Swagger JSON and UI.
                 foreach (var xmlCommentPath in XmlCommentsPaths) 

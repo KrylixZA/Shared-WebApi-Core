@@ -13,7 +13,7 @@ namespace Shared.WebApi.Core.Extensions
         /// <param name="app">The application builder.</param>
         /// <param name="apiVersion">The API version.</param>
         /// <param name="apiTitle">The API title.</param>
-        public static void UseSwaggerDocs(this IApplicationBuilder app, int apiVersion, string apiTitle)
+        public static IApplicationBuilder UseSwaggerDocs(this IApplicationBuilder app, int apiVersion, string apiTitle)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -21,6 +21,8 @@ namespace Shared.WebApi.Core.Extensions
                 c.SwaggerEndpoint($"/swagger/v{apiVersion}/swagger.json", $"{apiTitle} API");
                 c.RoutePrefix = string.Empty;
             });
+
+            return app;
         }
     }
 }

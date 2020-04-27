@@ -27,14 +27,13 @@ namespace Shared.WebApi.Core.Errors
         /// <summary>
         /// A user friendly description of what went wrong.
         /// </summary>
-        [Required]
-        [JsonProperty("errorMessage", Required = Required.Always)]
+        [JsonProperty("errorMessage", NullValueHandling = NullValueHandling.Ignore)]
         public string ErrorMessage { get; set; }
 
         /// <summary>
         /// An enumeration of any inner exceptions that may have occurred.
         /// </summary>
-        [JsonProperty("innerExceptions")]
+        [JsonProperty("innerExceptions", NullValueHandling = NullValueHandling.Ignore)]
         public IEnumerable<Exception> InnerExceptions { get; set; }
 
         /// <summary>

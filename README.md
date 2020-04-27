@@ -4,6 +4,7 @@ A shared Web API project that contains all the core code necessary to build and 
 # Contents
 * Global Exception Handler with custom error message implementations.
 * Swagger documentation simplification for .NET Core.
+* JWT security integration with the `[Authorize]` annotation.
 
 # Guides
 ## Global Exception Handler
@@ -38,8 +39,18 @@ To use the Swagger documentation, including the XML documents from this library,
         .WithApiVersion(ApiVersion)
         .WithApiDescription(ApiDescription)
         .WithXmlComments(apiXmlPath)
-        .BuildSwaggerServices(services, includeCoreXmlDocs: true);
-    // Set includeCoreXmlDocs: false if you do not wish to use the XML documentation from this library, or simply leave it out as the default value is false.
+        .WithCoreXmlDocs(true) // Set this to false if you wish to exclude the library comments.
+        .WithOperationFilter(true) // Set this to false if you are not using [Authorize] attributes on your controllers.
+        .WithSecurityDefinition("bearer", new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JWT Authorization header using the Bearer scheme.",
+        }) // To include JWT authorization in your Swagger docs.
+        .BuildSwaggerServices(services);
     ```
 3. In the `Configure` method in `Startup.cs`, add the following line of code:
     ``` C#
@@ -56,10 +67,68 @@ To use the Swagger documentation, including the XML documents from this library,
     4.2 Add the following post-build event to your project:
     ``` XML
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="cp &quot;$(PkgShared_WebApi_Core)/lib/netstandard2.1/Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin/$(Configuration)/$(TargetFramework)/&quot;" Condition=" '$(OS)' == 'Unix' " />
-        <Exec Command="xcopy /Y /I /E &quot;$(PkgShared_WebApi_Core)\lib\netstandard2.1\Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\&quot;" Condition=" '$(OS)' == 'Windows_NT' " />
+        <Exec Command="cp &quot;$(PkgShared_WebApi_Core)/lib/netcoreapp3.1/Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin/$(Configuration)/$(TargetFramework)/&quot;" Condition=" '$(OS)' == 'Unix' " />
+        <Exec Command="xcopy /Y /I /E &quot;$(PkgShared_WebApi_Core)\lib\netcoreapp3.1\Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\&quot;" Condition=" '$(OS)' == 'Windows_NT' " />
     </Target>
     ```
     This will copy the XML documentation from this project, with whichever version you have installed, to the build output directory of your project. Swagger will now be able to pick up the XML files and your docs will include any classes from this package as well.
 
     If you do not wish to use this, pass in a false value for the `includeCoreXmlDocs` paramter in the `BuildSwaggerServices` method. This is the default value as well.
+
+## JWT security
+1. For the controller actions you wish to protect through JWT security, decorate either the controller or each controller action with the `[Authorize]` annotation.
+2. In the `ConfigureServices` method in `Startup.cs`, include token authentication as follows:
+    ``` C#
+    services.AddTokenAuthentication(Configuration);
+    ```
+3. In the `Configure` method in `Startup.cs`, include authorization by adding the following line:
+    ``` C#
+    app.UseAuthorization();
+    ```
+4. Over the controller action that will generate your token (such as a login, etc.), decorate that action with the `[AllowAnonymous]` annotation.
+5. For that same controller, add the following depedency to your constructor:
+    ``` C#
+    public Constructor(IJwtService jwtService)
+    {
+        _jwtService = jwtService;
+    }
+    ```
+    Ensure you introduce a private field `private readonly IJwtService _jwtService;`
+6. In the controller action that allows anonymous authentication, when you have validated the request, generate and return a token as follows:
+    ``` C#
+    var token = _jwtService.GenerateSecurityToken("fake@email.com");  
+    return Ok(token);
+    ```
+
+In all, your code will look something like this:
+``` C#
+/// <summary>
+/// A test API to resolve a JWT token.
+/// </summary>
+[Route("tokens")]
+public class TestTokensController : ControllerBase
+{
+    private readonly IJwtService _jwtService;
+
+    /// <summary>
+    /// Initializes a new instance of the TestTokensController.
+    /// </summary>
+    /// <param name="jwtService">The JWT service.</param>
+    public TestTokensController(IJwtService jwtService)
+    {
+        _jwtService = jwtService;
+    }  
+
+    /// <summary>
+    /// Generates a random JWT token.
+    /// </summary>
+    /// <returns>A random JWT token.</returns>
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult GetRandomToken()  
+    {  
+        var token = _jwtService.GenerateSecurityToken("fake@email.com");  
+        return Ok(token);
+    }
+}
+```

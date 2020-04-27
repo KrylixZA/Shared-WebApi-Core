@@ -10,6 +10,34 @@ namespace Shared.WebApi.Core.Exceptions
     public abstract class BaseHttpException : Exception
     {
         /// <summary>
+        /// Creates a new instance of the BaseHttpException class.
+        /// </summary>
+        protected BaseHttpException()
+        {
+        }
+
+        /// <summary>
+        /// Creates a new instance of the BaseHttpException class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="errorCode">The error code.</param>
+        protected BaseHttpException(string? message, int errorCode) : base(message)
+        {
+            ErrorCode = errorCode;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the BaseHttpException class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="innerException">The exception.</param>
+        /// <param name="errorCode">The error code.</param>
+        protected BaseHttpException(string? message, Exception? innerException, int errorCode) : base(message, innerException)
+        {
+            ErrorCode = errorCode;
+        }
+        
+        /// <summary>
         /// The error code correlating to the error that occurred.
         /// </summary>
         [Required]

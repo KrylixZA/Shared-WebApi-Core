@@ -4,40 +4,40 @@ using System.Net;
 namespace Shared.WebApi.Core.Exceptions
 {
     /// <summary>
-    /// Represents an instance of a not found exception.
+    /// An exception to represents a 403 - Forbidden response.
     /// </summary>
-    public class NotFoundException : BaseHttpException
+    public class ForbiddenException : BaseHttpException
     {
         /// <summary>
-        /// Creates a new instance of the NotFoundException class.
+        /// Creates a new instance of the ForbiddenException class.
         /// </summary>
-        public NotFoundException()
+        public ForbiddenException()
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the NotFoundException class.
+        /// Creates a new instance of the ForbiddenException class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="errorCode">The error code.</param>
-        public NotFoundException(string? message, int errorCode) : base(message, errorCode)
+        public ForbiddenException(string? message, int errorCode) : base(message, errorCode)
         {
         }
 
         /// <summary>
-        /// Creates a new instance of the NotFoundException class.
+        /// Creates a new instance of the ForbiddenException class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
         /// <param name="errorCode">The error code.</param>
-        public NotFoundException(string? message, Exception? innerException, int errorCode) : base(message, innerException, errorCode)
+        public ForbiddenException(string? message, Exception? innerException, int errorCode) : base(message, innerException, errorCode)
         {
         }
         
         /// <inheritdoc />
         public override HttpStatusCode GetHttpStatusCode()
         {
-            return HttpStatusCode.NotFound;
+            return HttpStatusCode.Forbidden;
         }
     }
 }
