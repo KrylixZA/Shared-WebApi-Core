@@ -76,8 +76,18 @@ To use the Swagger documentation, including the XML documents from this library,
     ``` C#
     app.UseAuthorization();
     ```
-4. Over the controller action that will generate your token (such as a login, etc.), decorate that action with the `[AllowAnonymous]` annotation.
-5. For that same controller, add the following depedency to your constructor:
+4. Add a `JwtConfig` section to your `appsettings.json` - similar to the following:
+    ``` JSON
+    {
+        "JwtConfig": {
+            "secret": "PDv7DrqznYL6nv7DrqzjnQYO9JxIsWdcjnQYL6nu0f",
+            "expirationInMinutes": 60,
+            "issuer": "localhost"
+        }
+    }
+    ```
+5. Over the controller action that will generate your token (such as a login, etc.), decorate that action with the `[AllowAnonymous]` annotation.
+6. For that same controller, add the following depedency to your constructor:
     ``` C#
     public Constructor(IJwtService jwtService)
     {
@@ -85,41 +95,42 @@ To use the Swagger documentation, including the XML documents from this library,
     }
     ```
     Ensure you introduce a private field `private readonly IJwtService _jwtService;`
-6. In the controller action that allows anonymous authentication, when you have validated the request, generate and return a token as follows:
+7. In the controller action that allows anonymous authentication, when you have validated the request, generate and return a token as follows:
     ``` C#
     var token = _jwtService.GenerateSecurityToken("fake@email.com");  
     return Ok(token);
     ```
 
-In all, your code will look something like this:
-``` C#
-/// <summary>
-/// A test API to resolve a JWT token.
-/// </summary>
-[Route("tokens")]
-public class TestTokensController : ControllerBase
-{
-    private readonly IJwtService _jwtService;
-
+    In all, your code will look something like this:
+    ``` C#
     /// <summary>
-    /// Initializes a new instance of the TestTokensController.
+    /// A test API to resolve a JWT token.
     /// </summary>
-    /// <param name="jwtService">The JWT service.</param>
-    public TestTokensController(IJwtService jwtService)
+    [Authorize]
+    [Route("tokens")]
+    public class TestTokensController : ControllerBase
     {
-        _jwtService = jwtService;
-    }  
+        private readonly IJwtService _jwtService;
 
-    /// <summary>
-    /// Generates a random JWT token.
-    /// </summary>
-    /// <returns>A random JWT token.</returns>
-    [HttpGet]
-    [AllowAnonymous]
-    public IActionResult GetRandomToken()  
-    {  
-        var token = _jwtService.GenerateSecurityToken("fake@email.com");  
-        return Ok(token);
+        /// <summary>
+        /// Initializes a new instance of the TestTokensController.
+        /// </summary>
+        /// <param name="jwtService">The JWT service.</param>
+        public TestTokensController(IJwtService jwtService)
+        {
+            _jwtService = jwtService;
+        }  
+
+        /// <summary>
+        /// Generates a random JWT token.
+        /// </summary>
+        /// <returns>A random JWT token.</returns>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GetRandomToken()  
+        {  
+            var token = _jwtService.GenerateSecurityToken("fake@email.com");  
+            return Ok(token);
+        }
     }
-}
-```
+    ```
