@@ -114,11 +114,11 @@ namespace Shared.WebApi.Core.Builders
                 if (UseJwtAuthentication)
                 {
                     c.OperationFilter<AuthOperationFilter>();
-                    c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                     {
                         Name = "Authorization",
                         Type = SecuritySchemeType.ApiKey,
-                        Scheme = "bearer",
+                        Scheme = "Bearer",
                         BearerFormat = "JWT",
                         In = ParameterLocation.Header,
                         Description = "JWT Authorization header using the Bearer scheme.",
