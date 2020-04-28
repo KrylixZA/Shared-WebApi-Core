@@ -40,16 +40,7 @@ To use the Swagger documentation, including the XML documents from this library,
         .WithApiDescription(ApiDescription)
         .WithXmlComments(apiXmlPath)
         .WithCoreXmlDocs(true) // Set this to false if you wish to exclude the library comments.
-        .WithOperationFilter(true) // Set this to false if you are not using [Authorize] attributes on your controllers.
-        .WithSecurityDefinition("bearer", new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "bearer",
-            BearerFormat = "JWT",
-            In = ParameterLocation.Header,
-            Description = "JWT Authorization header using the Bearer scheme.",
-        }) // To include JWT authorization in your Swagger docs.
+        .WithJwtAuthentication(true) // Set this to false if you are not using JWT authentication.
         .BuildSwaggerServices(services);
     ```
 3. In the `Configure` method in `Startup.cs`, add the following line of code:

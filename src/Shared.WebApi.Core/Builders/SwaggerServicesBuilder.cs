@@ -19,9 +19,7 @@ namespace Shared.WebApi.Core.Builders
         private string Description { get; set; }
         private List<string> XmlCommentsPaths { get; }
         private bool IncludeCoreXmlDocs { get; set; }
-        private bool UseAuthOperationFilter { get; set; }
-        private string SecurityDefinitionName { get; set; }
-        private OpenApiSecurityScheme SecurityDefinition { get; set; }
+        private bool UseJwtAuthentication { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the swagger builder extensions class.
@@ -82,24 +80,12 @@ namespace Shared.WebApi.Core.Builders
         }
 
         /// <summary>
-        /// Determines whether to use the JWT authorization operation filter or not in your Swagger docs.
+        /// Determines whether or not to JWT authentication in the Swagger documentation with the [Authorize] attribute.
         /// </summary>
-        /// <param name="useAuthOperationFilter">A boolean indicating whether or not to use the JWT authorization filter.</param>
-        public SwaggerServicesBuilder WithOperationFilter(bool useAuthOperationFilter)
+        /// <param name="useJwtAuthentication">Set to true if you are using JWT authentication.</param>
+        public SwaggerServicesBuilder WithJwtAuthentication(bool useJwtAuthentication)
         {
-            UseAuthOperationFilter = useAuthOperationFilter;
-            return this;
-        }
-
-        /// <summary>
-        /// If a security definition is being used, use this method to set it.
-        /// </summary>
-        /// <param name="name">The security definition name.</param>
-        /// <param name="securityDefinition">The security definition.</param>
-        public SwaggerServicesBuilder WithSecurityDefinition(string name, OpenApiSecurityScheme securityDefinition)
-        {
-            SecurityDefinitionName = name;
-            SecurityDefinition = securityDefinition;
+            UseJwtAuthentication = useJwtAuthentication;
             return this;
         }
 
@@ -125,16 +111,20 @@ namespace Shared.WebApi.Core.Builders
                     Description = Description
                 });
 
-                if (UseAuthOperationFilter)
+                if (UseJwtAuthentication)
                 {
                     c.OperationFilter<AuthOperationFilter>();
+                    c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT",
+                        In = ParameterLocation.Header,
+                        Description = "JWT Authorization header using the Bearer scheme.",
+                    });
                 }
 
-                if (SecurityDefinition != null)
-                {
-                    c.AddSecurityDefinition(SecurityDefinitionName, SecurityDefinition);
-                }
-                
                 // Set the comments path for the Swagger JSON and UI.
                 foreach (var xmlCommentPath in XmlCommentsPaths) 
                 {
