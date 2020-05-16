@@ -19,8 +19,8 @@ namespace Shared.WebApi.Core.Extensions
         /// <param name="config">The configuration.</param>
         public static IServiceCollection AddTokenAuthentication(this IServiceCollection services, IConfiguration config)
         {
-            var secret = config.GetSection("JwtConfig").GetSection("secret").Value;
-            var issuer = config.GetSection("JwtConfig").GetSection("issuer").Value;
+            var secret = config.GetValue<string>("JwtConfig:Secret");
+            var issuer = config.GetValue<string>("JwtConfig:Issuer");
 
             services.AddAuthentication(x =>
             {

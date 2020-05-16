@@ -21,7 +21,7 @@ namespace Shared.WebApi.Core.Security
         /// <param name="configuration">The configuration.</param>
         public JwtService(IConfiguration configuration)
         {
-            _configuration = configuration;  
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));  
         }
 
         /// <inheritdoc />
@@ -55,14 +55,14 @@ namespace Shared.WebApi.Core.Security
 
         private JwtResponse GenerateToken(IEnumerable<Claim> claims)
         {
-            var secret = _configuration.GetSection("JwtConfig").GetSection("secret").Value;
-            var expirationInMinutes = _configuration.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
+            var secret = _configuration.GetValue<string>("JwtConfig:Secret");
+            var expirationInMinutes = _configuration.GetValue<int>("JwtConfig:ExpirationInMinutes");
             var tokenHandler = new JwtSecurityTokenHandler();  
             var key = Encoding.ASCII.GetBytes(secret);  
             var tokenDescriptor = new SecurityTokenDescriptor  
             {  
                 Subject = new ClaimsIdentity(claims),  
-                Expires = DateTime.UtcNow.AddMinutes(double.Parse(expirationInMinutes)),  
+                Expires = DateTime.UtcNow.AddMinutes(expirationInMinutes),  
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)  
             };  
   
@@ -70,7 +70,7 @@ namespace Shared.WebApi.Core.Security
             return new JwtResponse
             {
                 AccessToken = tokenHandler.WriteToken(token),
-                ExpiresIn = int.Parse(expirationInMinutes)
+                ExpiresInMinutes = expirationInMinutes
             };
         }
     }

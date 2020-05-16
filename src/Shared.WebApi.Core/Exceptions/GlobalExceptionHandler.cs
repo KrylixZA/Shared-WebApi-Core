@@ -27,9 +27,10 @@ namespace Shared.WebApi.Core.Exceptions
             IErrorMessageSelector errorMessageSelector,
             ILogger<GlobalExceptionHandler> logger)
         {
-            _logger = logger;
-            _next = next;
-            _errorMessageSelector = errorMessageSelector;
+            _next = next ?? throw new ArgumentNullException(nameof(next));
+            _errorMessageSelector =
+                errorMessageSelector ?? throw new ArgumentNullException(nameof(errorMessageSelector));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -56,11 +57,9 @@ namespace Shared.WebApi.Core.Exceptions
 
             var errorResponse = new ErrorResponse
             {
+                ErrorCode = -1,
                 ErrorDetails = exception.Message,
-                InnerExceptions = new[]
-                {
-                    exception
-                }
+                InnerExceptions = new[] {exception}
             };
 
             if (exception is BaseHttpException httpException)
@@ -69,7 +68,7 @@ namespace Shared.WebApi.Core.Exceptions
                 errorResponse.ErrorMessage = _errorMessageSelector.GetErrorMessage(httpException.ErrorCode);
                 errorResponse.ErrorCode = httpException.ErrorCode;
             }
-            
+
             return context.Response.WriteAsync(errorResponse.ToString());
         }
     }

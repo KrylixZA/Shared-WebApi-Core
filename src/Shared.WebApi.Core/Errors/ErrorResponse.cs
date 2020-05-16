@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace Shared.WebApi.Core.Errors
@@ -8,6 +9,7 @@ namespace Shared.WebApi.Core.Errors
     /// <summary>
     /// A base error response model that will represent any errors that are handled by the API.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ErrorResponse
     {
         /// <summary>
@@ -22,19 +24,19 @@ namespace Shared.WebApi.Core.Errors
         /// </summary>
         [Required]
         [JsonProperty("errorDetails", Required = Required.Always)]
-        public string ErrorDetails { get; set; }
+        public string ErrorDetails { get; set; } = null!;
 
         /// <summary>
         /// A user friendly description of what went wrong.
         /// </summary>
         [JsonProperty("errorMessage", NullValueHandling = NullValueHandling.Ignore)]
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; } = null!;
 
         /// <summary>
         /// An enumeration of any inner exceptions that may have occurred.
         /// </summary>
         [JsonProperty("innerExceptions", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<Exception> InnerExceptions { get; set; }
+        public IEnumerable<Exception>? InnerExceptions { get; set; }
 
         /// <summary>
         /// Returns a JSON string representation of this instance.

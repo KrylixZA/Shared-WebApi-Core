@@ -5,7 +5,6 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Shared.WebApi.Core.Security;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Shared.WebApi.Core.Builders
 {
@@ -15,8 +14,8 @@ namespace Shared.WebApi.Core.Builders
     public class SwaggerServicesBuilder 
     {
         private int ApiVersion { get; set; }
-        private string Title { get; set; }
-        private string Description { get; set; }
+        private string? Title { get; set; }
+        private string? Description { get; set; }
         private List<string> XmlCommentsPaths { get; }
         private bool IncludeCoreXmlDocs { get; set; }
         private bool UseJwtAuthentication { get; set; }

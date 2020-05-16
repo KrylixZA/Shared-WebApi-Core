@@ -6,6 +6,7 @@ namespace Shared.WebApi.Core.Exceptions
     /// <summary>
     /// Represents an instance of a not found exception.
     /// </summary>
+    [Serializable]
     public class NotFoundException : BaseHttpException
     {
         /// <summary>

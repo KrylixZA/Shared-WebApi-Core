@@ -6,6 +6,7 @@ namespace Shared.WebApi.Core.Exceptions
     /// <summary>
     /// Represents an instance of a bad request.
     /// </summary>
+    [Serializable]
     public class BadRequestException : BaseHttpException
     {
         /// <summary>

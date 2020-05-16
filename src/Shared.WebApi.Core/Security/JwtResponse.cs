@@ -13,13 +13,13 @@ namespace Shared.WebApi.Core.Security
         /// </summary>
         [Required]
         [JsonProperty("accessToken", Required = Required.Always)]
-        public string AccessToken { get; set; }
+        public string AccessToken { get; set; } = null!;
 
         /// <summary>
         /// The expiration time in minutes.
         /// </summary>
         [Required]
-        [JsonProperty("expiresIn", Required = Required.Always)]
-        public int ExpiresIn { get; set; }
+        [JsonProperty("expiresInMinutes", Required = Required.Always)]
+        public int ExpiresInMinutes { get; set; }
     }
 }

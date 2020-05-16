@@ -6,6 +6,7 @@ namespace Shared.WebApi.Core.Exceptions
     /// <summary>
     /// An exception to represents a 401 - Unauthorized response.
     /// </summary>
+    [Serializable]
     public class UnauthorizedException : BaseHttpException
     {
         /// <summary>

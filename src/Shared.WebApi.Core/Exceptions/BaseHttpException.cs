@@ -41,7 +41,7 @@ namespace Shared.WebApi.Core.Exceptions
         /// The error code correlating to the error that occurred.
         /// </summary>
         [Required]
-        public int ErrorCode { get; set; }
+        public int ErrorCode { get; }
         
         /// <summary>
         /// Gets the System.Net.HttpStatusCode associated with the exception that was thrown.

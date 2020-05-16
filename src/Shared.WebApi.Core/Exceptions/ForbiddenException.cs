@@ -6,6 +6,7 @@ namespace Shared.WebApi.Core.Exceptions
     /// <summary>
     /// An exception to represents a 403 - Forbidden response.
     /// </summary>
+    [Serializable]
     public class ForbiddenException : BaseHttpException
     {
         /// <summary>
