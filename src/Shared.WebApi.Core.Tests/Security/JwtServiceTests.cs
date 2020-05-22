@@ -7,7 +7,6 @@ using System.Text;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using NSubstitute;
 using NUnit.Framework;
 using Shared.WebApi.Core.Security;
 
@@ -49,7 +48,7 @@ namespace Shared.WebApi.Core.Tests.Security
             return new JwtService(stubs.Configuration);
         }
 
-        private static string GenerateToken(IEnumerable<Claim> claims, Stubs stubs)
+        private static string GenerateToken(IEnumerable<Claim> claims, Stubs stubs, DateTime now)
         {
             var secret = stubs.Configuration.GetValue<string>("JwtConfig:Secret");
             var expirationInMinutes = stubs.Configuration.GetValue<int>("JwtConfig:ExpirationInMinutes");
@@ -58,7 +57,7 @@ namespace Shared.WebApi.Core.Tests.Security
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(expirationInMinutes),
+                Expires = now.AddMinutes(expirationInMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -102,18 +101,19 @@ namespace Shared.WebApi.Core.Tests.Security
             var service = GetSystemUnderTest(stubs);
 
             const string email = "test@email.com";
+            var now = DateTime.Now;
 
             var expectedToken = new JwtResponse
             {
                 AccessToken = GenerateToken(new[]
                 {
                     new Claim(ClaimTypes.Email, email)
-                }, stubs),
+                }, stubs, now),
                 ExpiresInMinutes = 60
             };
 
             // Act
-            var actualToken = service.GenerateSecurityToken(email);
+            var actualToken = service.GenerateSecurityToken(email, now);
 
             // Assert
             actualToken.Should().BeEquivalentTo(expectedToken);
@@ -128,6 +128,7 @@ namespace Shared.WebApi.Core.Tests.Security
 
             const string email = "test@email.com";
             const int userId = 1;
+            var now = DateTime.Now;
 
             var expectedToken = new JwtResponse
             {
@@ -135,12 +136,12 @@ namespace Shared.WebApi.Core.Tests.Security
                 {
                     new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-                }, stubs),
+                }, stubs, now),
                 ExpiresInMinutes = 60
             };
 
             // Act
-            var actualToken = service.GenerateSecurityToken(email, userId);
+            var actualToken = service.GenerateSecurityToken(email, userId, now);
 
             // Assert
             actualToken.Should().BeEquivalentTo(expectedToken);
@@ -155,6 +156,7 @@ namespace Shared.WebApi.Core.Tests.Security
 
             const string email = "test@email.com";
             var userId = Guid.NewGuid();
+            var now = DateTime.Now;
 
             var expectedToken = new JwtResponse
             {
@@ -162,12 +164,12 @@ namespace Shared.WebApi.Core.Tests.Security
                 {
                     new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-                }, stubs),
+                }, stubs, now),
                 ExpiresInMinutes = 60
             };
 
             // Act
-            var actualToken = service.GenerateSecurityToken(email, userId);
+            var actualToken = service.GenerateSecurityToken(email, userId, now);
 
             // Assert
             actualToken.Should().BeEquivalentTo(expectedToken);

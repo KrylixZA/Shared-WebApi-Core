@@ -25,35 +25,35 @@ namespace Shared.WebApi.Core.Security
         }
 
         /// <inheritdoc />
-        public JwtResponse GenerateSecurityToken(string email)
+        public JwtResponse GenerateSecurityToken(string email, DateTime now)
         {
             return GenerateToken(new[]
             {
                 new Claim(ClaimTypes.Email, email),
-            });
+            }, now);
         }
 
         /// <inheritdoc />
-        public JwtResponse GenerateSecurityToken(string email, int userId)
+        public JwtResponse GenerateSecurityToken(string email, int userId, DateTime now)
         {
             return GenerateToken(new[]
             {
                 new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            });
+            }, now);
         }
 
         /// <inheritdoc />
-        public JwtResponse GenerateSecurityToken(string email, Guid userId)
+        public JwtResponse GenerateSecurityToken(string email, Guid userId, DateTime now)
         {
             return GenerateToken(new[]
             {
                 new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            });
+            }, now);
         }
 
-        private JwtResponse GenerateToken(IEnumerable<Claim> claims)
+        private JwtResponse GenerateToken(IEnumerable<Claim> claims, DateTime now)
         {
             var secret = _configuration.GetValue<string>("JwtConfig:Secret");
             var expirationInMinutes = _configuration.GetValue<int>("JwtConfig:ExpirationInMinutes");
@@ -62,7 +62,7 @@ namespace Shared.WebApi.Core.Security
             var tokenDescriptor = new SecurityTokenDescriptor  
             {  
                 Subject = new ClaimsIdentity(claims),  
-                Expires = DateTime.UtcNow.AddMinutes(expirationInMinutes),  
+                Expires = now.AddMinutes(expirationInMinutes),  
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)  
             };  
   
