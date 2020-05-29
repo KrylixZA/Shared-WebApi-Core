@@ -138,6 +138,13 @@
             <param name="innerException">The inner exception.</param>
             <param name="errorCode">The error code.</param>
         </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.BadRequestException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the BadRequestException class.
+            </summary>
+            <param name="serializationInfo">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
         <member name="M:Shared.WebApi.Core.Exceptions.BadRequestException.GetHttpStatusCode">
             <inheritdoc />
         </member>
@@ -165,6 +172,13 @@
             <param name="message">The message.</param>
             <param name="innerException">The exception.</param>
             <param name="errorCode">The error code.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.BaseHttpException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the BaseHttpException class.
+            </summary>
+            <param name="serializationInfo">The serialization info.</param>
+            <param name="streamingContext">The streaming context.</param>
         </member>
         <member name="P:Shared.WebApi.Core.Exceptions.BaseHttpException.ErrorCode">
             <summary>
@@ -200,6 +214,13 @@
             <param name="message">The message.</param>
             <param name="innerException">The inner exception.</param>
             <param name="errorCode">The error code.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.ForbiddenException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the ForbiddenException class.
+            </summary>
+            <param name="serializationInfo">The serialization info.</param>
+            <param name="context">The context.</param>
         </member>
         <member name="M:Shared.WebApi.Core.Exceptions.ForbiddenException.GetHttpStatusCode">
             <inheritdoc />
@@ -248,6 +269,13 @@
             <param name="innerException">The inner exception.</param>
             <param name="errorCode">The error code.</param>
         </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.NotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the NotFoundException class.
+            </summary>
+            <param name="serializationInfo">The serialization info.</param>
+            <param name="context">The context.</param>
+        </member>
         <member name="M:Shared.WebApi.Core.Exceptions.NotFoundException.GetHttpStatusCode">
             <inheritdoc />
         </member>
@@ -275,6 +303,13 @@
             <param name="message">The message.</param>
             <param name="innerException">The inner exception.</param>
             <param name="errorCode">The error code.</param>
+        </member>
+        <member name="M:Shared.WebApi.Core.Exceptions.UnauthorizedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Creates a new instance of the UnauthorizedException class.
+            </summary>
+            <param name="serializationInfo">The serialization info.</param>
+            <param name="context">The context.</param>
         </member>
         <member name="M:Shared.WebApi.Core.Exceptions.UnauthorizedException.GetHttpStatusCode">
             <inheritdoc />
@@ -328,27 +363,30 @@
             A contract for JWT services.
             </summary>
         </member>
-        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String)">
+        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String,System.DateTime)">
             <summary>
             Generates a security tokens based off the user's email.
             </summary>
             <param name="email">The user's email.</param>
+            <param name="now">The system's current date and time.</param>
             <returns>An encoded JWT token.</returns>
         </member>
-        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String,System.Int32)">
+        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String,System.Int32,System.DateTime)">
             <summary>
             Generates a security tokens based off the user's email.
             </summary>
             <param name="email">The user's email.</param>
             <param name="userId">The user's unique identifier.</param>
+            <param name="now">The system's current date and time.</param>
             <returns>An encoded JWT token.</returns>
         </member>
-        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String,System.Guid)">
+        <member name="M:Shared.WebApi.Core.Security.IJwtService.GenerateSecurityToken(System.String,System.Guid,System.DateTime)">
             <summary>
             Generates a security tokens based off the user's email.
             </summary>
             <param name="email">The user's email.</param>
             <param name="userId">The user's unique identifier.</param>
+            <param name="now">The system's current date and time.</param>
             <returns>An encoded JWT token.</returns>
         </member>
         <member name="T:Shared.WebApi.Core.Security.JwtResponse">
@@ -377,13 +415,13 @@
             </summary>
             <param name="configuration">The configuration.</param>
         </member>
-        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String)">
+        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String,System.DateTime)">
             <inheritdoc />
         </member>
-        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String,System.Int32)">
+        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String,System.Int32,System.DateTime)">
             <inheritdoc />
         </member>
-        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String,System.Guid)">
+        <member name="M:Shared.WebApi.Core.Security.JwtService.GenerateSecurityToken(System.String,System.Guid,System.DateTime)">
             <inheritdoc />
         </member>
     </members>

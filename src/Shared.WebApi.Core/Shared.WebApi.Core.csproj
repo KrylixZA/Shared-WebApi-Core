@@ -5,6 +5,7 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <LangVersion>8</LangVersion>
         <Nullable>enable</Nullable>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

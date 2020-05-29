@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Runtime.Serialization;
 using FluentAssertions;
+using NSubstitute;
 using NUnit.Framework;
 using Shared.WebApi.Core.Exceptions;
 
@@ -40,7 +42,7 @@ namespace Shared.WebApi.Core.Tests.Exceptions
             Assert.AreEqual(expectedMessage, exception.Message);
             Assert.AreEqual(expectedErrorCode, exception.ErrorCode);
         }
-        
+
         [Test]
         public void BadRequestException_GivenMessageAndErrorCodeAndInnerException_ShouldSetExpectedProperties()
         {
