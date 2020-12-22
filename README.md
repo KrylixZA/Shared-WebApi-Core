@@ -1,4 +1,4 @@
-# Introduction 
+# Introduction [![Build Status](https://dev.azure.com/headleysj/DevOps/_apis/build/status/KrylixZA.Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/DevOps/_build/latest?definitionId=9&branchName=master)
 A shared Web API project that contains all the core code necessary to build and secure a Web API in .NET Core.
 
 # Contents
