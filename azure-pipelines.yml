@@ -104,10 +104,11 @@ jobs:
       summaryFileLocation: '$(Common.TestResultsDirectory)/coverage.cobertura.xml'
 
   - task: CopyFiles@2
+    displayName: 'Copy test results to test results folder'
     inputs:
       SourceFolder: '$(Agent.TempDirectory)'
       Contents: '**/*.trx'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      TargetFolder: '$(Common.TestResultsDirectory)'
 
   - task: PublishTestResults@2
     displayName: 'Publish test results'
