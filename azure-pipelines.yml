@@ -47,7 +47,7 @@ jobs:
       SonarCloud: 'SonarCloud'
       organization: 'headleysj'
       scannerMode: 'MSBuild'
-      projectKey: '$(Build.Repository.Name)'
+      projectKey: 'Shared-WebApi-Core'
       extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/coverage.opencover.xml'
 
   - task: DotNetCoreCLI@2
