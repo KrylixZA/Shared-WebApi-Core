@@ -29,11 +29,14 @@ jobs:
         $branchName = "$(Build.SourceBranchName)";
         $buildVersion = "$(Build.BuildNumber)";
         $nugetPkgVersion = $buildVersion;
-        If (-not([string]::IsNullOrWhiteSpace($branchName)) -and ($branchName -ne "master")) {
+        if (-not([string]::IsNullOrWhiteSpace($branchName)) -and 
+            ($branchName -ne "master") -and 
+            -not($buildVersion -match $branchName)) {
+              
             $nugetPkgVersion = "$nugetPkgVersion-$branchName";
+            Write-Host "##vso[build.updateBuildNumber]$nugetPkgVersion";
         }
         Write-Host "Package version: $nugetPkgVersion";
-        Write-Host "##vso[build.updateBuildNumber]$nugetPkgVersion";
 
   - task: SonarCloudPrepare@1
     displayName: 'Prepare for analysis'
