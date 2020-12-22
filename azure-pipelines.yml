@@ -103,6 +103,12 @@ jobs:
       codeCoverageTool: Cobertura
       summaryFileLocation: '$(Common.TestResultsDirectory)/coverage.cobertura.xml'
 
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: '**/*.trx'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
   - task: PublishTestResults@2
     displayName: 'Publish test results'
     inputs:
