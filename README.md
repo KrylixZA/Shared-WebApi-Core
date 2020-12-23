@@ -1,5 +1,5 @@
-# Introduction [![Build Status](https://dev.azure.com/headleysj/Source%20Code/_apis/build/status/Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/Source%20Code/_build/latest?definitionId=11&branchName=master)
-A shared Web API project that contains all the core code necessary to build and secure a Web API in .NET Core.
+# Shared Web API Core [![Build Status](https://dev.azure.com/headleysj/Source%20Code/_apis/build/status/Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/Source%20Code/_build/latest?definitionId=11&branchName=master) [![Shared.WebApi.Core package in headleysj feed in Azure Artifacts](https://feeds.dev.azure.com/headleysj/_apis/public/Packaging/Feeds/404449e0-6d24-4a4e-bc3e-4634d3f54a5a/Packages/951922b0-f675-434e-ba67-1249b76eedde/Badge)](https://dev.azure.com/headleysj/Source%20Code/_packaging?_a=package&feed=404449e0-6d24-4a4e-bc3e-4634d3f54a5a&package=951922b0-f675-434e-ba67-1249b76eedde&preferRelease=true)
+A shared web API project that contains all the core code necessary to build and secure a web API in .NET Core.
 
 # Contents
 * Global Exception Handler with custom error message implementations.
