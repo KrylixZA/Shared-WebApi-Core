@@ -51,7 +51,7 @@ jobs:
       extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/coverage.opencover.xml'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet restore'
+    displayName: 'Restore dependencies'
     inputs:
       command: 'restore'
       projects: './src'
@@ -59,21 +59,21 @@ jobs:
       vstsFeed: '404449e0-6d24-4a4e-bc3e-4634d3f54a5a'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet build'
+    displayName: 'Run build'
     inputs:
       command: 'build'
       projects: './src'
       arguments: '--no-restore --configuration $(BuildConfiguration) -p:Version=$(Build.BuildNumber)'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet test'
+    displayName: 'Run tests'
     inputs:
       command: 'test'
       projects: './src'
-      arguments: '--no-restore --configuration $(BuildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura%2cjson%2copencover" /p:CoverletOutput="$(Common.TestResultsDirectory)/" /p:MergeWith="$(Common.TestResultsDirectory)/coverage.json"'
+      arguments: '--no-build --no-restore --configuration $(BuildConfiguration) --logger trx /p:CollectCoverage=true /p:CoverletOutputFormat="cobertura%2cjson%2copencover" /p:CoverletOutput="$(Common.TestResultsDirectory)/" /p:MergeWith="$(Common.TestResultsDirectory)/coverage.json"'
 
   - task: NuGetCommand@2
-    displayName: 'Create nuget package'
+    displayName: 'Package contents'
     inputs:
       command: 'pack'
       packagesToPack: '**/*.nuspec'
@@ -111,14 +111,6 @@ jobs:
       mergeTestResults: true
       failTaskOnFailedTests: true
       buildConfiguration: '$(BuildConfiguration)'
-
-  - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet nuget push'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'GitHub Packages'
 
   - task: SonarCloudAnalyze@1
     displayName: 'SonarCloud analysis'
