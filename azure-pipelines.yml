@@ -50,10 +50,6 @@ jobs:
       projectKey: 'Shared-WebApi-Core'
       extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/coverage.opencover.xml'
 
-  - task: NuGetAuthenticate@0
-    inputs:
-      nuGetServiceConnections: 'GitHub Packages'
-
   - task: DotNetCoreCLI@2
     displayName: 'Run dotnet restore'
     inputs:
@@ -116,15 +112,8 @@ jobs:
       failTaskOnFailedTests: true
       buildConfiguration: '$(BuildConfiguration)'
 
-  # - task: DotNetCoreCLI@2
-  #   displayName: 'Run dotnet nuget push'
-  #   inputs:
-  #     command: 'push'
-  #     packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
-  #     nuGetFeedType: 'external'
-  #     publishFeedCredentials: 'GitHub Packages'
-
-  - task: NuGetCommand@2
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet nuget push'
     inputs:
       command: 'push'
       packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
