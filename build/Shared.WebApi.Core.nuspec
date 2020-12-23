@@ -8,7 +8,6 @@
         <description>The Web API core libraries </description>
         <projectUrl>https://github.com/KrylixZA/Shared-WebApi-Core</projectUrl>
         <tags>Shared Web API Core</tags>
-        <type>git</type>
         <url>https://github.com/KrylixZA/Shared-WebApi-Core</url>
         <dependencies>
             <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="3.1.3" />
