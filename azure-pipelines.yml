@@ -50,6 +50,10 @@ jobs:
       projectKey: 'Shared-WebApi-Core'
       extraProperties: 'sonar.cs.opencover.reportsPaths=$(Common.TestResultsDirectory)/coverage.opencover.xml'
 
+  - task: NuGetAuthenticate@0
+    inputs:
+      nuGetServiceConnections: 'GitHub Packages'
+
   - task: DotNetCoreCLI@2
     displayName: 'Run dotnet restore'
     inputs:
