@@ -1,4 +1,4 @@
-# Shared Web API Core [![Build Status](https://dev.azure.com/headleysj/Source%20Code/_apis/build/status/Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/Source%20Code/_build/latest?definitionId=11&branchName=master) [![Shared.WebApi.Core package in headleysj feed in Azure Artifacts](https://feeds.dev.azure.com/headleysj/_apis/public/Packaging/Feeds/404449e0-6d24-4a4e-bc3e-4634d3f54a5a/Packages/951922b0-f675-434e-ba67-1249b76eedde/Badge)](https://dev.azure.com/headleysj/Source%20Code/_packaging?_a=package&feed=404449e0-6d24-4a4e-bc3e-4634d3f54a5a&package=951922b0-f675-434e-ba67-1249b76eedde&preferRelease=true) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core)
+# Shared Web API Core [![Build Status](https://dev.azure.com/headleysj/Source%20Code/_apis/build/status/Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/Source%20Code/_build/latest?definitionId=11&branchName=master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core) [![Shared.WebApi.Core package in headleysj feed in Azure Artifacts](https://feeds.dev.azure.com/headleysj/_apis/public/Packaging/Feeds/404449e0-6d24-4a4e-bc3e-4634d3f54a5a/Packages/951922b0-f675-434e-ba67-1249b76eedde/Badge)](https://dev.azure.com/headleysj/Source%20Code/_packaging?_a=package&feed=404449e0-6d24-4a4e-bc3e-4634d3f54a5a&package=951922b0-f675-434e-ba67-1249b76eedde&preferRelease=true)
 A shared web API project that contains all the core code necessary to build and secure a web API in .NET Core.
 
 # Contents
@@ -49,7 +49,7 @@ To use the Swagger documentation, including the XML documents from this library,
     ```
 4. To enable XML documentation from this library, modify your `.csproj` file with the following:
     
-    4.1 In the `<ItemGroup></ItemGroup>` list that contains your package references, where you are referencing this package, modify it to something to the following:
+    4.1 In the `<ItemGroup></ItemGroup>` list that contains your package references, where you are referencing this package, modify it to something similar to the following:
     ``` XML
     <PackageReference Include="Shared.WebApi.Core" Version="1.0.0.57" GeneratePathProperty="true" />
     ```
@@ -64,7 +64,7 @@ To use the Swagger documentation, including the XML documents from this library,
     ```
     This will copy the XML documentation from this project, with whichever version you have installed, to the build output directory of your project. Swagger will now be able to pick up the XML files and your docs will include any classes from this package as well.
 
-    If you do not wish to use this, pass in a false value for the `includeCoreXmlDocs` paramter in the `BuildSwaggerServices` method. This is the default value as well.
+    If you do not wish to use this, pass in a false value for the `includeCoreXmlDocs` paramater in the `BuildSwaggerServices` method. This is the default value as well.
 
 ## JWT security
 1. For the controller actions you wish to protect through JWT security, decorate either the controller or each controller action with the `[Authorize]` annotation.
