@@ -112,8 +112,15 @@ jobs:
       failTaskOnFailedTests: true
       buildConfiguration: '$(BuildConfiguration)'
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet nuget push'
+  # - task: DotNetCoreCLI@2
+  #   displayName: 'Run dotnet nuget push'
+  #   inputs:
+  #     command: 'push'
+  #     packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
+  #     nuGetFeedType: 'external'
+  #     publishFeedCredentials: 'GitHub Packages'
+
+  - task: NuGetCommand@2
     inputs:
       command: 'push'
       packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
