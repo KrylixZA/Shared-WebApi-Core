@@ -82,14 +82,6 @@ jobs:
       versionEnvVar: 'Build.BuildNumber'
       buildProperties: 'version="$(Build.BuildNumber)"'
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Run dotnet nuget push'
-    inputs:
-      command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
-      nuGetFeedType: 'internal'
-      publishVstsFeed: '404449e0-6d24-4a4e-bc3e-4634d3f54a5a'
-
   - task: PublishBuildArtifacts@1
     displayName: 'Publish build artifacts'
     inputs:
@@ -119,6 +111,14 @@ jobs:
       mergeTestResults: true
       failTaskOnFailedTests: true
       buildConfiguration: '$(BuildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet nuget push'
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)\*.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: '404449e0-6d24-4a4e-bc3e-4634d3f54a5a'
 
   - task: SonarCloudAnalyze@1
     displayName: 'SonarCloud analysis'
