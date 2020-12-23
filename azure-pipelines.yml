@@ -12,7 +12,7 @@ pool:
 variables:
   BuildConfiguration: 'Release'
   MajorVersion: 1
-  MinorVersion: 0
+  MinorVersion: 2
   PatchVersion: 1
 
 name: $(MajorVersion).$(MinorVersion).$(PatchVersion).$(Rev:r)
