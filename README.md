@@ -1,4 +1,4 @@
-# Shared Web API Core [![Build Status](https://dev.azure.com/headleysj/Source%20Code/_apis/build/status/Shared-WebApi-Core?branchName=master)](https://dev.azure.com/headleysj/Source%20Code/_build/latest?definitionId=11&branchName=master) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core) [![Shared.WebApi.Core package in headleysj feed in Azure Artifacts](https://feeds.dev.azure.com/headleysj/_apis/public/Packaging/Feeds/404449e0-6d24-4a4e-bc3e-4634d3f54a5a/Packages/951922b0-f675-434e-ba67-1249b76eedde/Badge)](https://dev.azure.com/headleysj/Source%20Code/_packaging?_a=package&feed=404449e0-6d24-4a4e-bc3e-4634d3f54a5a&package=951922b0-f675-434e-ba67-1249b76eedde&preferRelease=true)
+# Shared Web API Core ![.NET](https://github.com/KrylixZA/Shared-WebApi-Core/workflows/.NET/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core)
 A shared web API project that contains all the core code necessary to build and secure a web API in .NET Core.
 
 # Contents
@@ -7,6 +7,11 @@ A shared web API project that contains all the core code necessary to build and 
 * JWT security integration with the `[Authorize]` annotation.
 
 # Guides
+
+## Installation
+To install this library you can simply reference it as follows:
+`dotnet add PROJECT package Shared.WebApi.Core --source "https://nuget.pkg.github.com/krylixza/index.json"`
+
 ## Global Exception Handler
 To utilize the global exception handler, you will need to the following:
 1. Create your own implementation of [IErrorMessageSelector](src/Shared.WebApi.Core/Errors/IErrorMessageSelector.cs).
