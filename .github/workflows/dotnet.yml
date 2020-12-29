@@ -41,7 +41,7 @@ jobs:
       run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
 
     - name: Publish
-      run:  dotnet nuget push "$GITHUB_WORKSPACE/src/Shared.WebApi.Core/bin/Release/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json"
+      run:  dotnet nuget push "$GITHUB_WORKSPACE/src/Shared.WebApi.Core/bin/Release/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
 
     - name: Run SonarQube Scan
       uses: highbyte/sonarscan-dotnet@1.0.2
