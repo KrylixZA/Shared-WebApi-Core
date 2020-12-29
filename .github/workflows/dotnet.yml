@@ -31,11 +31,14 @@ jobs:
       run: |
         buildNumber=$(echo ${{ env.BUILD_VERSION }})
         branchName=$(echo ${{ env.BRANCH_NAME }} | sed 's:.*/::')
-        buildId=$buildNumber-branchName
+        if [[ "$branchName" == "master" ]] then
+          $branchName = ""
+        fi
+        buildId=$buildNumber-$branchName
         echo $buildNumber
         echo $branchName
         echo $buildId
-        echo "##[set-output name=BUILD_NUMBER;]$(echo ${GITHUB_REF#refs/heads/})"
+        echo "##[set-output name=BUILD_NUMBER;]$(echo $buildId)"
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
