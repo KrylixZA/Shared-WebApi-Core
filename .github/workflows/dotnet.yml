@@ -14,6 +14,7 @@ env:
     MAJOR_VERSION: 1
     MINOR_VERSION: 0
     PATCH_VERSION: 0
+    REV_VERSION: ${{ GITHUB_RUN_NUMBER }}
 
 jobs:
   build:
@@ -25,17 +26,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Update build number
-      uses: paulhatch/semantic-version@v3.2
-      with:
-        branch: "master"
-        tag_prefix: "v"
-        major_pattern: "(MAJOR)"
-        minor_pattern: "(MINOR)"
-        format: "${major}.${minor}.${patch}-prerelease.${increment}"
-        short_tags: false
-        bump_each_commit: false
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -45,15 +35,15 @@ jobs:
       run: dotnet restore ./src
 
     - name: Build
-      run: dotnet build ./src --no-restore --configuration "Release" /p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
+      run: dotnet build ./src --no-restore --configuration "Release" -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$REV_VERSION
 
     - name: Test
       run: dotnet test ./src --no-build --no-restore --configuration "Release"
 
     - name: Pack
-      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src /p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
+      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$REV_VERSION
 
-    - name: Publish
+    - name: Push
       run:  dotnet nuget push "$GITHUB_WORKSPACE/src/Shared.WebApi.Core/bin/Release/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
 
     - name: Run SonarQube Scan
@@ -63,5 +53,5 @@ jobs:
         sonarProjectName:  Shared-WebApi-Core
         sonarOrganization: krylixza
         dotnetBuildArguments: ./src
-        dotnetTestArguments: ./src --logger trx -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../TestResults/" -p:MergeWith="../TestResults/coverage.json"
+        dotnetTestArguments: ./src --logger trx --output "../TestResults/" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../TestResults/" -p:MergeWith="../TestResults/coverage.json"
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
