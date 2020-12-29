@@ -67,12 +67,12 @@ jobs:
     - name: Push
       run:  dotnet nuget push "$GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
 
-    - name: Run SonarQube Scan
-      uses: highbyte/sonarscan-dotnet@1.0.2
-      with:
-        sonarProjectKey: Shared-WebApi-Core
-        sonarProjectName:  Shared-WebApi-Core
-        sonarOrganization: krylixza
-        dotnetBuildArguments: ./src
-        dotnetTestArguments: ./src --logger trx --output "../TestResults/" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../TestResults/" -p:MergeWith="../TestResults/coverage.json"
-        sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
+    # - name: Run SonarQube Scan
+    #   uses: highbyte/sonarscan-dotnet@1.0.2
+    #   with:
+    #     sonarProjectKey: Shared-WebApi-Core
+    #     sonarProjectName:  Shared-WebApi-Core
+    #     sonarOrganization: krylixza
+    #     dotnetBuildArguments: ./src
+    #     dotnetTestArguments: ./src --logger trx --output "../TestResults/" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../TestResults/" -p:MergeWith="../TestResults/coverage.json"
+    #     sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
