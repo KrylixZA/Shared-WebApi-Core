@@ -1,3 +1,5 @@
+name: .NET
+
 on:
   push:
     branches:
@@ -13,8 +15,6 @@ env:
     MINOR_VERSION: 0
     PATCH_VERSION: 0
 
-name: $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
-
 jobs:
   build:
 
@@ -22,16 +22,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+
     - name: Restore dependencies
       run: dotnet restore ./src
+
     - name: Build
-      run: dotnet build ./src --no-restore --configuration "Release"
+      run: dotnet build ./src --no-restore --configuration "Release" -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
+
     - name: Test
-      run: dotnet test ./src --no-build --no-build --configuration "Release"
+      run: dotnet test ./src --no-build --no-restore --configuration "Release"
+
+    - name: Pack
+      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=./build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
+
     - name: Run SonarQube Scan
       uses: highbyte/sonarscan-dotnet@1.0.2
       with:
