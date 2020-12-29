@@ -22,7 +22,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: 'Checkout'
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
 
@@ -31,7 +32,7 @@ jobs:
       run: |
         buildNumber=$(echo ${{ env.BUILD_VERSION }})
         branchName=$(echo ${{ env.BRANCH_NAME }} | sed 's:.*/::')
-        if [[ "$branchName" == "master" ]] then
+        if [[ "$branchName" == "master" ]]; then
           $branchName = ""
         fi
         buildId=$buildNumber-$branchName
