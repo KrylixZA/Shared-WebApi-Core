@@ -58,14 +58,11 @@ jobs:
     - name: Test
       run: dotnet test $GITHUB_WORKSPACE/src --no-build --no-restore --configuration "Release"
 
-    # - name: Pack
-    #   run: dotnet pack $GITHUB_WORKSPACE/src --no-build --no-restore --configuration "Release" /p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec /p:NuspecBasePath=$GITHUB_WORKSPACE/src /p:Version=${{ steps.define_build_number.outputs.BUILD_NUMBER }} /p:PackageVersion=${{ steps.define_build_number.outputs.BUILD_NUMBER }}
-
     - name: Pack
-      run: nuget pack **/*.nuspec -BasePath $GITHUB_WORKSPACE/src -Version ${{ steps.define_build_number.outputs.BUILD_NUMBER }} -properties Configuration=Release
+      run: nuget pack **/*.nuspec -BasePath $GITHUB_WORKSPACE/src -OutputDirectory $GITHUB_WORKSPACE/build/ -Version ${{ steps.define_build_number.outputs.BUILD_NUMBER }} -properties Configuration=Release
 
     - name: Push
-      run:  dotnet nuget push "$GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
+      run:  dotnet nuget push $GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
 
     # - name: Run SonarQube Scan
     #   uses: highbyte/sonarscan-dotnet@1.0.2
