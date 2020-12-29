@@ -26,11 +26,16 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Show build number
-      run: echo ${{ env.BUILD_VERSION }}
-
-    - name: Show branch name
-      run: echo ${{ env.BRANCH_NAME }}
+    - name: Define build number
+      id: define_build_number
+      run: |
+        buildNumber=$(echo ${{ env.BUILD_VERSION }})
+        branchName=$(echo ${{ env.BRANCH_NAME }} | sed 's:.*/::')
+        buildId=$buildNumber-branchName
+        echo $buildNumber
+        echo $branchName
+        echo $buildId
+        echo "##[set-output name=BUILD_NUMBER;]$(echo ${GITHUB_REF#refs/heads/})"
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -41,13 +46,13 @@ jobs:
       run: dotnet restore ./src
 
     - name: Build
-      run: dotnet build ./src --no-restore --configuration "Release" -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$REV_VERSION
+      run: dotnet build ./src --no-restore --configuration "Release" -p:Version=${{ steps.define_build_number.outputs.BUILD_NUMBER }}
 
     - name: Test
       run: dotnet test ./src --no-build --no-restore --configuration "Release"
 
     - name: Pack
-      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$REV_VERSION
+      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src -p:Version=${{ steps.define_build_number.outputs.BUILD_NUMBER }}
 
     - name: Push
       run:  dotnet nuget push "$GITHUB_WORKSPACE/src/Shared.WebApi.Core/bin/Release/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
