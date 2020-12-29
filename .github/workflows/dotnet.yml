@@ -62,7 +62,7 @@ jobs:
     #   run: dotnet pack $GITHUB_WORKSPACE/src --no-build --no-restore --configuration "Release" /p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec /p:NuspecBasePath=$GITHUB_WORKSPACE/src /p:Version=${{ steps.define_build_number.outputs.BUILD_NUMBER }} /p:PackageVersion=${{ steps.define_build_number.outputs.BUILD_NUMBER }}
 
     - name: Pack
-      run: nuget pack /p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -Version ${{ steps.define_build_number.outputs.BUILD_NUMBER }} -OutputDirectory $GITHUB_WORKSPACE/build/ -properties Configuration=Release
+      run: nuget pack /p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -Version ${{ steps.define_build_number.outputs.BUILD_NUMBER }} -OutputDirectory $GITHUB_WORKSPACE/build/ -SolutionDirectory $GITHUB_WORKSPACE/src/ -properties Configuration=Release
 
     - name: Push
       run:  dotnet nuget push "$GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg" --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
