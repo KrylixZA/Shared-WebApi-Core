@@ -32,10 +32,10 @@ jobs:
       run: |
         buildNumber=$(echo ${{ env.BUILD_VERSION }})
         branchName=$(echo ${{ env.BRANCH_NAME }} | sed 's:.*/::')
-        if [[ "$branchName" == "master" ]]; then
-          branchName=""
-        fi
         buildId=$buildNumber-$branchName
+        if [[ "$branchName" == "master" ]]; then
+          buildId=$buildNumber
+        fi
         echo $buildNumber
         echo $branchName
         echo $buildId
