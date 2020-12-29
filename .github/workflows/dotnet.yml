@@ -20,11 +20,11 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./src
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./src --no-restore --configuration "Release"
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test ./src --no-build --no-build --configuration "Release"
     - name: Run SonarQube Scan
       uses: highbyte/sonarscan-dotnet@1.0.2
       with:
