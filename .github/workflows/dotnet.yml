@@ -14,7 +14,7 @@ env:
     MAJOR_VERSION: 1
     MINOR_VERSION: 0
     PATCH_VERSION: 0
-    REV_VERSION: ${GITHUB_RUN_NUMBER}
+    BUILD_VERSION: $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.${GITHUB_RUN_NUMBER}
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         fetch-depth: 0
 
     - name: Show build number
-      run: echo $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.${{ env.REV_VERSION }}
+      run: echo ${{ env.BUILD_VERSION }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
