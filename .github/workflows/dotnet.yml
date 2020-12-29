@@ -30,6 +30,7 @@ jobs:
       with:
         sonarProjectKey: Shared-WebApi-Core
         sonarProjectName:  Shared-WebApi-Core
+        sonarOrganization: krylixza
         dotnetBuildArguments: ./src
         dotnetTestArguments: ./src --logger trx --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
         sonarBeginArguments: /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.cs.vstest.reportsPaths="**/TestResults/*.trx"
