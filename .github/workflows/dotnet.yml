@@ -38,7 +38,7 @@ jobs:
       run: dotnet test ./src --no-build --no-restore --configuration "Release"
 
     - name: Pack
-      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
+      run: dotnet pack ./src --no-build --no-restore --configuration "Release" -p:NuspecFile=$GITHUB_WORKSPACE/build/Shared.WebApi.Core.nuspec -p:NuspecBasePath=$GITHUB_WORKSPACE/src -p:Version=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$GITHUB_RUN_NUMBER
 
     - name: Run SonarQube Scan
       uses: highbyte/sonarscan-dotnet@1.0.2
