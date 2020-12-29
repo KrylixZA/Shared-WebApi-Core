@@ -1,7 +1,7 @@
 # Contributing Guide
 Detailed below are a set of rules for contributing to this repository.
 
-1. Clone the repository at https://headleysj@dev.azure.com/headleysj/DevOps/_git/Shared-WebApi-Core
+1. Clone the repository at https://github.com/KrylixZA/Shared-WebApi-Core.git
 2. All work must be done on a branch as the master branch is protected from commits.
 3. Branches should be created under the following style guides:
     * `task/[A-Za-z]+[0-9]*-<semantic branch name>`; OR

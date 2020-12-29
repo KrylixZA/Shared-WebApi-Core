@@ -5,7 +5,7 @@
         <version>1.0.0.0</version>
         <title>Web API Core library</title>
         <authors>Simon Headley</authors>
-        <description>The Web API Core libraries used to simplify the development of .NET APIs.</description>
+        <description>Web API Core libraries used to simplify the development of .NET APIs.</description>
         <tags>Shared Web API Core</tags>
         <dependencies>
             <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="3.1.3" />
