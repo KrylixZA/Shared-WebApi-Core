@@ -18,13 +18,15 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
+    - name: Show build number
+      run: echo $MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.${{ env.REV_VERSION }}
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
