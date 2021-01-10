@@ -1,4 +1,4 @@
-# Shared Web API Core ![.NET](https://github.com/KrylixZA/Shared-WebApi-Core/workflows/.NET/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core)
+# [Shared Web API Core](https://github.com/KrylixZA/Shared-WebApi-Core) ![CI](https://github.com/KrylixZA/Shared-WebApi-Core/workflows/CI/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Shared-WebApi-Core&metric=alert_status)](https://sonarcloud.io/dashboard?id=Shared-WebApi-Core)
 A shared web API project that contains all the core code necessary to build and secure a web API in .NET Core.
 
 # Contents
@@ -10,19 +10,28 @@ A shared web API project that contains all the core code necessary to build and 
 
 ## Installation
 To install this library you can simply reference it as follows:
-`dotnet add PROJECT package Shared.WebApi.Core --source "https://nuget.pkg.github.com/krylixza/index.json"`
+`dotnet add PROJECT package Shared.WebApi.Core --source https://nuget.pkg.github.com/krylixza/index.json`
 
 ## Global Exception Handler
 To utilize the global exception handler, you will need to the following:
 1. Create your own implementation of [IErrorMessageSelector](src/Shared.WebApi.Core/Errors/IErrorMessageSelector.cs).
-2. Register your implementation of `IErrorMessageSelector` in `Startup.cs` in the `ConfigureServices` method as follows:
+2. Where applicable, create your own custom exception classes that extended [BaseHttpException](src/Shared.WebApi.Core/Exceptions/BaseHttpException.cs).
+3. There are also the following exceptions available:
+    * [BadRequestException](src/Shared.WebApi.Core/Exceptions/BadRequestException.cs)
+    * [ForbiddenException](src/Shared.WebApi.Core/Exceptions/ForbiddenException.cs)
+    * [NotFoundException](src/Shared.WebApi.Core/Exceptions/NotFoundException.cs)
+    * [UnauthorizedException](src/Shared.WebApi.Core/Exceptions/UnauthorizedException.cs)
+4. Register your implementation of `IErrorMessageSelector` in `Startup.cs` in the `ConfigureServices` method as follows:
     ``` C#
     services.TryAddTransient<IErrorMessageSelector, MyErrorMessageSelector>();
     ````
-3. Enable Global Exception Handling in the `Configure` method in `Startup.cs` as follows:
+5. Enable Global Exception Handling in the `Configure` method in `Startup.cs` as follows:
     ``` C#
     app.UseGlobalExceptionHandler();
     ```
+6. You should now be able to safely throw exceptions anywhere in your code base. 
+    * Model validation or route/query parameter exceptions will automatically throw a [BadRequestException](src/Shared.WebApi.Core/Exceptions/BadRequestException.cs).
+    * Various authentication exceptions will automatically throw either a [ForbiddenException](src/Shared.WebApi.Core/Exceptions/ForbiddenException.cs) or an [UnauthorizedException](src/Shared.WebApi.Core/Exceptions/UnauthorizedException.cs).
 
 ## Swagger Documentation
 To use the Swagger documentation, including the XML documents from this library, you will need the following:
@@ -139,3 +148,6 @@ To use the Swagger documentation, including the XML documents from this library,
         }
     }
     ```
+
+# Contribute
+To contribute to this project, please following the [contributing guide](CONTRIBUTING.md).
