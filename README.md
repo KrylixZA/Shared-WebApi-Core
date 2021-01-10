@@ -65,7 +65,7 @@ To use the Swagger documentation, including the XML documents from this library,
     
     4.1 In the `<ItemGroup></ItemGroup>` list that contains your package references, where you are referencing this package, modify it to something similar to the following:
     ``` XML
-    <PackageReference Include="Shared.WebApi.Core" Version="1.0.0.57" GeneratePathProperty="true" />
+    <PackageReference Include="Shared.WebApi.Core" Version="1.1.0.2" GeneratePathProperty="true" />
     ```
     [Click here](https://blog.dangl.me/archive/accessing-nuget-package-paths-in-your-net-sdk-based-csproj-files/) to read more about `GeneratePathProperty`.
 
