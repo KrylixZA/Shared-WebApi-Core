@@ -62,7 +62,7 @@ jobs:
       run: nuget pack **/*.nuspec -BasePath $GITHUB_WORKSPACE/src -OutputDirectory $GITHUB_WORKSPACE/build/ -Version ${{ steps.define_build_number.outputs.BUILD_NUMBER }} -properties Configuration=Release
 
     - name: Push
-      run:  dotnet nuget push $GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg --source "https://nuget.pkg.github.com/krylixza/index.json" --skip-duplicate --api-key $GITHUB_TOKEN
+      run:  dotnet nuget push $GITHUB_WORKSPACE/build/Shared.WebApi.Core.*.nupkg --source https://api.nuget.org/v3/index.json --skip-duplicate --api-key ${{ secrets.NUGET_ACCESS_TOKEN }}
 
     - name: SonarCloud
       uses: highbyte/sonarscan-dotnet@1.0.2
