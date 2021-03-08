@@ -10,7 +10,7 @@ A shared web API project that contains all the core code necessary to build and 
 
 ## Installation
 To install this library you can simply reference it as follows:
-`dotnet add PROJECT package Shared.WebApi.Core --source https://nuget.pkg.github.com/krylixza/index.json`
+`dotnet add package Shared.WebApi.Core`
 
 ## Global Exception Handler
 To utilize the global exception handler, you will need to the following:
