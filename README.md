@@ -61,25 +61,8 @@ To use the Swagger documentation, including the XML documents from this library,
     ``` C#
     app.UseSwaggerDocs(ApiVersion, ApiTitle);
     ```
-4. To enable XML documentation from this library, modify your `.csproj` file with the following:
+4. To enable XML documentation from this library, you will need to modify your API project to include the [Build.Directory.targets](Build.Directory.targets) file. This file effectively copies the XML and PDB files from the various dependency NuGet packages you have referenced to your build directory.
     
-    4.1 In the `<ItemGroup></ItemGroup>` list that contains your package references, where you are referencing this package, modify it to something similar to the following:
-    ``` XML
-    <PackageReference Include="Shared.WebApi.Core" Version="1.1.0.2" GeneratePathProperty="true" />
-    ```
-    [Click here](https://blog.dangl.me/archive/accessing-nuget-package-paths-in-your-net-sdk-based-csproj-files/) to read more about `GeneratePathProperty`.
-
-    4.2 Add the following post-build event to your project:
-    ``` XML
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="cp &quot;$(PkgShared_WebApi_Core)/lib/netcoreapp3.1/Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin/$(Configuration)/$(TargetFramework)/&quot;" Condition=" '$(OS)' == 'Unix' " />
-        <Exec Command="xcopy /Y /I /E &quot;$(PkgShared_WebApi_Core)\lib\netcoreapp3.1\Shared.WebApi.Core.xml&quot; &quot;$(ProjectDir)bin\$(Configuration)\$(TargetFramework)\&quot;" Condition=" '$(OS)' == 'Windows_NT' " />
-    </Target>
-    ```
-    This will copy the XML documentation from this project, with whichever version you have installed, to the build output directory of your project. Swagger will now be able to pick up the XML files and your docs will include any classes from this package as well.
-
-    If you do not wish to use this, pass in a false value for the `includeCoreXmlDocs` paramater in the `BuildSwaggerServices` method. This is the default value as well.
-
 ## JWT security
 1. For the controller actions you wish to protect through JWT security, decorate either the controller or each controller action with the `[Authorize]` annotation.
 2. In the `ConfigureServices` method in `Startup.cs`, include token authentication as follows:
